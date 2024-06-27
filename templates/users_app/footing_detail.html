@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} {{page_name}} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="block">
+
+                <div class="container">
+                    <h2>{{page_name}}</h2>
+                        {{form.as_p}}
+                    {% for k,v in data.items %}
+                        <p>
+                            <label>{{k}}</label>
+                            <input type='text' class='form-control' value="{{v}}" disabled>
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}

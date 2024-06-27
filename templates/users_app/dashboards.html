@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %} Аналитические показатели {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="col-9">
+
+                <div class="container">
+                    <figure class="highcharts-figure"><div id="dcr_type_container"></div></figure>
+					<figure class="highcharts-figure"><div id="container"></div></figure>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    Highcharts.chart('container', {
+	  chart: {
+	    type: 'column'
+	  },
+	  title: {
+	    text: 'Динамика конвертации по видам РИД',
+	    align: 'left'
+	  },
+	  xAxis: {
+	    categories: {{dc_type_categories|safe}}
+	  },
+	  yAxis: {
+	    min: 0,
+	    title: {
+	      text: 'Количество'
+	    },
+	    stackLabels: {
+	      enabled: true,
+	      style: {
+	        fontWeight: 'bold',
+	        color: ( // theme
+	          Highcharts.defaultOptions.title.style &&
+	          Highcharts.defaultOptions.title.style.color
+	        ) || 'gray',
+	        textOutline: 'none'
+	      }
+	    }
+	  },
+	  legend: {
+	    align: 'left',
+	    x: 70,
+	    verticalAlign: 'top',
+	    y: 70,
+	    floating: true,
+	    backgroundColor:
+	      Highcharts.defaultOptions.legend.backgroundColor || 'white',
+	    borderColor: '#CCC',
+	    borderWidth: 1,
+	    shadow: false
+	  },
+	  tooltip: {
+	    headerFormat: '<b>{point.x}</b><br/>',
+	    pointFormat: '{series.name}: {point.y}<br/>Всего: {point.stackTotal}'
+	  },
+	  plotOptions: {
+	    column: {
+	      stacking: 'normal',
+	      dataLabels: {
+	        enabled: true
+	      }
+	    }
+	  },
+	  series: [{
+	    name: 'уведомления в заявку',
+	    data: {{ntp_data|safe}}
+	  }, {
+	    name: 'заявка в патент',
+	    data: {{ptp_data|safe}}
+	  }, {
+	    name: 'патент в сделку',
+	    data: {{ptd_data|safe}}
+	  }]
+	});
+</script>
+    <script type="text/javascript">
+    	Highcharts.chart('dcr_type_container', {
+		  chart: {
+		    type: 'column'
+		  },
+		  title: {
+		    text: 'Динамика создания по видам РИД'
+		  },
+		  xAxis: {
+		    categories: {{dcr_type_categories|safe}},
+		    crosshair: true
+		  },
+		  yAxis: {
+		    title: {
+		      useHTML: true,
+		      text: 'Количество'
+		    }
+		  },
+		  tooltip: {
+		    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		      '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+		    footerFormat: '</table>',
+		    shared: true,
+		    useHTML: true
+		  },
+		  plotOptions: {
+		    column: {
+		      pointPadding: 0.2,
+		      borderWidth: 0
+		    }
+		  },
+		  series: [{
+		    name: 'Количество РИД',
+		    data: {{dcr_type_data|safe}}
+
+		  }]
+		});
+    </script>
+{% endblock %}

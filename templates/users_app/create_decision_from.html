@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="block">
+
+                <div class="container">
+                    <div class='col' style="min-width: 90%">
+                        <form method="post" action="{% url 'create_decision_view' %}">{% csrf_token %}
+                            {{ create_decision_from.as_p }}
+                            <button type="submit" class="btn btn-primary">Добавить сведения о согласованиях</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

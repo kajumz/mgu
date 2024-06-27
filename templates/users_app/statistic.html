@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} {{page_name}} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="block">
+
+                <div class="container">
+                    <h2>{{page_name}}</h2>
+                       <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Показатель</th>
+      <th scope="col">Значение</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for k,v in statistic_list.items %}
+    <tr>
+      <th scope="row">{{k}}</th>
+      <td>{{v}}</td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+                        
+                </div>
+            </div>
+            
+        </div>
+    </div>
+{% endblock %}

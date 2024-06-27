@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Добавить автора {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="block">
+
+                <div class="container">
+                    <h2>Добавить автора</h2>
+                    <form method="POST">{% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-primary mt-2">Добавить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
