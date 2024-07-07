@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+
+            <div class="block flex-fill">
+                <form action="{% url 'create_decision_type_b_view' ria_id %}" method="post">{% csrf_token %}
+                    <div class="container">
+                        <h2>Сформировать экспертизу о необходимости правовой охраны РИД</h2>
+                        <div class="container">
+                            <div id="experts">
+                                <div class="input-group row">
+                                    <span class="input-group-text col-2">Эксперт</span>
+                                    <span class="input-group-text col-8 ">Экспертиза</span>
+                                    <span class="input-group-text col-2">Количество дней</span>
+                                </div>
+                                <p></p>
+                                <div class="input-group row">
+                                    <div class='col-2'>
+                                        <select class="form-select" name="expert_id">
+                                            <option disabled>---</option>
+                                            {% for expert in experts %}
+                                                <option value="{{ expert.id }}">{{ expert.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class='col-8'>
+                                        <input type="text" name="expertise" class="form-control" required>
+                                    </div>
+                                    <div class='col-2'>
+                                        <input type="number" name="count_days" class="form-control col-2" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col my-2">
+                                <button type="button" class="btn btn-secondary btn-lg" id="add_expert">+</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Создать</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        $("#add_expert").click(function () {
+            $('#experts').append('<p></p>' +
+                '<div class="input-group row">' +
+                '     <div class="col-2">' +
+                '        <select class="form-select" name="expert_id" >' +
+                '           <option disabled>---</option>' +
+                '          {% for expert in experts %}'+
+                    '             <option value="{{ expert.id }}">{{ expert.name }}</option>'+
+                    '        {% endfor %}' +
+                '   </select>' +
+                '</div>' +
+                '<div class="col-8">' +
+                '    <input type="text" name="expertise" class="form-control" required>' +
+                ' </div>' +
+                ' <div class="col-2"> ' +
+                '    <input type="number" name="count_days" class="form-control col-2" required >' +
+                '</div>' +
+                '</div>');
+        });
+    </script>
+{% endblock %}

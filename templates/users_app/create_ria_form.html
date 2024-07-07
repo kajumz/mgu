@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="block">
+
+                <div class="container">
+                    <h2>Создание РИД</h2>
+                    <div class='col' style="min-width: 90%">
+                        <form method="post" action="{% url 'add_rid_view' %}"
+                              enctype="multipart/form-data">{% csrf_token %}
+                            <div class='col authors'>
+                                <p class='not_found_user text-danger row' style='display:none;'>Автор не найден</p>
+                                <div class='row my-2'>
+                                    
+                                    <div class="col-7">
+                                        <input type="text" class="form-control typeahead last_name" data-provide="typeahead"
+                                               placeholder='ФИО'>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="number" class="form-control percent"   placeholder='%' min="1" max="100">
+                                    </div>
+                                    <button class='btn btn-primary col-1 ms-3' type='button' onclick='addAuthor(this)'>
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.type.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="предполагаемая форма правовой охраны – произведение науки, литературы или искусства, изобретение, полезная модель, промышленный образец, селекционное достижение, программа для ЭВМ, база данных, топология интегральных микросхем, секрет производства">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.type }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.name.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="краткое наименование созданного РИД">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.name }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.division.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="Факультет или иное структурное подразделение, на базе которого создан РИД">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.division }}</div>
+                        </p><p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.price.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="данные отсутствуют\приведена в бухгалтерской справке о формировании первоначальной стоимости РИД - прилагается">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.price }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.documentation.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="заполняется патентоведом\администратором">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.documentation }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex row">
+
+                                {{ create_ria_form.footing.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="Служебный РИД (при создании основания выбрать «Контракт\договор», «Тематический план НИР Университета», «Задание» - подтверждающий документ прилагается) или Не служебный РИД (при создании основания выбрать «Иное»)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+
+                        <p class='not_found_footing text-danger row' style='display:none;'>Основание не найдено</p>
+                            <input type="text" class="form-control " id="footing_typehead" data-provide="typeahead"
+                                               placeholder='Основание'>
+                            <input id="footind_input" name="footing" style="display:none;">
+                        </p>
+                            </div>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.entities.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="Сведения о РИД не обнародованы полностью или частично, опубликованы и/или доложены на конференции, представлены на выставке и т.п. – с указанием наименования и даты раскрытия">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.entities }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.dependencies.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="иные организации, обеспечивающие разработку или работники которых принимали участие в разработке, и\или предшествующая интеллектуальная собственность (поданные заявки и/или полученные патенты и иные охранные документы), в отношении программ для ЭВМ – сведения об использовании open source компонентов или кода">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.dependencies }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.rospatent.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="поданные заявки и/или полученные патенты и иные охранные документы - номер заявки/патента и т.п.">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.rospatent }}</div>
+                        </p>
+
+                         <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.document_information.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="приложить документы о создании РИД – договоры, служебные задания, подтверждение выполнения работ по плану НИР и др.">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.document_information }}</div>
+                        </p>
+                        <p>
+                            <div class="d-flex flex-row">
+                                {{ create_ria_form.document_information_files.label }}
+                                <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"
+                                   title="допустимые форматы файлов: word (doc\rtf), pdf, презентации (pptx)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class='row'>{{ create_ria_form.document_information_files }}</div>
+                        </p>
+
+
+{#                            {% for field in  create_ria_form %}#}
+{#                                <p>#}
+{#                                <div class="d-flex flex-row">#}
+{#                                    {{ field.label }}#}
+{#                                    <a class='col text-dark m-auto ms-2' data-toggle="tooltip" data-placement="right"#}
+{#                                       title="help Text123123123">#}
+{#                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"#}
+{#                                             fill="currentColor" class="bi bi-question-square" viewBox="0 0 16 16">#}
+{#                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>#}
+{#                                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>#}
+{#                                        </svg>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class='row'>{{ field }}</div>#}
+{#                                </p>#}
+{#                            {% endfor %}#}
+                            <p>
+                                <label>Указать сведения Договора</label>
+                                <select class="form-select" name='contract_pk'>
+                                    <option disabled selected>Выберите договор по его номеру</option>
+                                    {% for contract in free_contracts %}
+                                        <option value="{{contract.pk}}">{{contract.number}}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+
+                            <button type="submit" class="btn btn-primary">Создать РИД</button>
+                        </form>
+                        <p></p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="block col">
+                <a type="button" class="btn btn-info" href="{% url 'create_footing_view' %}">Создать основание РИД</a>
+                <p></p>
+                <a type="button" class="btn btn-info" href="{% url 'create_contract_view' %}">Указать сведения о
+                    договорах использования</a>
+                <p></p>
+                <a type="button" class="btn btn-info" href="{% url 'create_decision_view' %}">Указать сведения о
+                    согласованиях и принятых решениях</a>
+                <p></p>
+                {% if my_role == 'ctt' or my_role == 'admin'%}
+                    <a type="button" class="btn btn-info" href="{% url 'create_author' %}">Добавить автора</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function addAuthor(e) {
+            const last_name = $(e).parent().find('.last_name')
+            const percent = $(e).parent().find('.percent')
+
+            const text_ = last_name.text()
+            if (text_){
+                const parent = $('.authors')
+                parent.append('<div class="row my-2">' +
+                    '<div class="col-7">' +
+                    `<input type="text" class="form-control" name="last_name"  value="${text_}">` +
+                    '</div>' +
+                    '<div class="col-3">' +
+                    '<input type="number" class="form-control" name="percent"  value='+percent.val()+'>' +
+                    '</div>' +
+                    '</div>')
+                last_name.val("")
+                percent.val("") 
+            }
+
+            
+        }
+    </script>
+<script>
+    var $footing = $("#footing_typehead")
+    console.log({{footings|safe}})
+    $footing.typeahead({
+            source:{{footings|safe}},
+            // [
+            //   {id: "someId1", name: "Display name 1"},
+            //   {id: "someId2", name: "Display name 2"}
+            // ],
+            autoSelect: true
+        });
+        $footing.change(function () {
+            var current = $footing.typeahead("getActive");
+            if (current) {
+                console.log(current)
+
+                // Some item from your model is active!
+                if (current.name == $footing.val()) {
+                    $('.not_found_footing').css('display','none')
+
+                    $('#footind_input').val(current.id)
+                    // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
+                } else {
+                    $('.not_found_footing').css('display','block')
+                    // This means it is only a partial match, you can either add a new item
+                    // or take the active if you don't want new items
+                }
+            } else {
+                $('.not_found_footing').css('display','block')
+                // Nothing is active so it is a new value (or maybe empty value)
+            }
+        });
+</script>
+    <script type="text/javascript">
+        var $input = $(".typeahead");
+        $input.typeahead({
+            source:{{authors|safe}},
+            // [
+            //   {id: "someId1", name: "Display name 1"},
+            //   {id: "someId2", name: "Display name 2"}
+            // ],
+            autoSelect: true
+        });
+        $input.change(function () {
+            var current = $input.typeahead("getActive");
+            if (current) {
+
+                // Some item from your model is active!
+                if (current.name == $input.val()) {
+                    $('.not_found_user').css('display','none')
+                    // This means the exact match is found. Use toLowerCase() if you want case insensitive match.
+                } else {
+                    $('.not_found_user').css('display','block')
+                    // This means it is only a partial match, you can either add a new item
+                    // or take the active if you don't want new items
+                }
+            } else {
+                 $('.not_found_user').css('display','block')
+                // Nothing is active so it is a new value (or maybe empty value)
+            }
+        });
+    </script>
+{% endblock %}

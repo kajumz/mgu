@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+
+            <div class="col-7">
+                <h2>{{ header }}</h2>
+                <div class="container">
+                    <form method="post">{% csrf_token %}
+                        {{ form.as_p }}
+                        <p>
+                                <label>Указать сведения Договора</label>
+                                <select class="form-select"  name='contract_pk'>
+                                    <option disabled selected>Выберите договор по его номеру</option>
+                                    {% for contract in free_contracts %}
+                                        <option value="{{contract.pk}}">{{contract.number}}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                        <p>
+                            <label>Журнал выполненных действий</label>
+                        <div class='row'>
+                            <div class="scrollspy-example bg-light p-3 rounded-2"
+                                 style='max-height:200px;overflow-y: scroll'>
+                                {% for journal_data in obj.journal %}
+                                    <h5>{{ journal_data.time }} {{ journal_data.user }}</h5>
+                                    <p>{{ journal_data.action }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </p>
+                        <button type="submit" class="btn btn-primary mb-5">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+            {% if obj.status != 'Необходима правовая охрана РИД' %}
+                <div class="col-2">
+                    <a type="button" class="btn btn-info" href="{% url 'create_footing_view' %}">Создать основание
+                        РИД</a>
+                    <p></p>
+                    <a type="button" class="btn btn-info" href="{% url 'create_contract_view' %}">Указать сведения о
+                        договорах использования</a>
+                    <p></p>
+                    <a type="button" class="btn btn-info" href="{% url 'create_decision_view' %}">Указать сведения о
+                        согласованиях и принятых решениях</a>
+                    <p></p>
+                    {% if my_role == 'ctt' or my_role == 'admin' %}
+                        <a type="button" class="btn btn-info" href="{% url 'create_author' %}">Добавить автора</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

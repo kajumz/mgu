@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+
+            <div class="block">
+                <h2>Информация о РИД</h2>
+                <div class="container">
+                    <div class='col' style="min-width: 90%">
+                        <label>Авторы</label>
+                        {% for author_ria in  authors_ria %}
+                            <div class='row mb-2'>
+                                <div class="col-7">
+                                    <input type="text" class="form-control typeahead last_name" data-provide="typeahead"
+                                           placeholder='ФИО' value="{{ author_ria.author.name }}" disabled></a>
+                                </div>
+                                <div class="col-3">
+                                    <input type="number" class="form-control percent" placeholder='%' min="1" max="100"
+                                           value="{{ author_ria.percent }}" disabled>
+                                </div>
+                                <div class='col-1 text-center align-self-center'>
+                                    <a href='{% url "author_detail" pk=author_ria.author.pk %}'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                  d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"></path>
+                                            <path fill-rule="evenodd"
+                                                  d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        {{ obj_form.as_p }}
+
+
+                        {% if obj.footing %}
+                            <p>
+                                <label>Информация о учете оснований для создания РИД</label>
+                            <div class='row'>
+                                <div class='col-11'>
+                                    <input type='text' class='form-control' value='{{ obj.footing }}' disabled>
+                                </div>
+                                <div class='col-1 text-center align-self-center'>
+                                    <a href='{% url "footing_info" pk=obj.footing.pk %}'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                  d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+
+                            </div>
+                            </p>
+                        {% endif %}
+                        {% if contract %}
+                        <p>
+                            <label>Сведения о договоре</label>
+                        <div class='row'>
+                            <div class='col-11'>
+                                <input type='text' class='form-control' value='{{ contract.number }}' disabled>
+                            </div>
+                            <div class='col-1 text-center align-self-center'>
+                                <a href='{% url "contract_info" pk=contract.pk %}'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                              d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                    </svg>
+                                </a>
+                            </div>
+
+                        </div>
+                        </p>
+                    {% endif %}
+
+                        <p>
+                            <label>Журнал выполненых действий</label>
+                        <div class='row'>
+                            <div class="scrollspy-example bg-light p-3 rounded-2"
+                                 style='max-height:200px;overflow-y: scroll'>
+                                {% for journal_data in obj.journal %}
+                                    <h5>{{ journal_data.time }} {{ journal_data.user }}</h5>
+                                    <p>{{ journal_data.action }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </p>
+                        <div class='row'>
+                            <label>Файлы</label>
+                            {% for file in files %}
+                                <a href="{{ file.file.url }}" download class='col-12 '>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                         class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                                        <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/>
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                                    </svg>
+                                    {{ file }}
+                                </a>
+                            {% endfor %}
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class='col'>
+                {% if obj.status == 'A' %}
+                    <div class="col">
+                        <a href="{% url  'submit_for_consideration' obj.id %}" type="button" class="btn btn-primary ">Передать
+                            на рассмотрение</a>
+                    </div>
+                {% endif %}
+{#                {% if obj.status == 'B' %}#}
+{#                    <div class="col">#}
+{#                        <a href="{% url  'set_main_ctt_worker_view' obj.id %}" type="button" class="btn btn-primary ">Принять#}
+{#                            на рассмотрение</a>#}
+{##}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                {% if obj.status == 'C' %}#}
+{#                    <div class="col">#}
+{#                        <a href="{% url  'create_decision_type_a_view' obj.id %}" type="button"#}
+{#                           class="btn btn-primary ">Сформировать этапы рассмотрения и назначить ответственных#}
+{#                            экспертов</a>#}
+{##}
+{#                    </div>#}
+{#                {% endif %}#}
+                {% if obj.status == 'E' %}
+                    <div class="col">
+                        <a href="{% url  'send_retrieve_request' obj.id %}" type="button" class="btn btn-primary">Отправить
+                            повторный запрос</a>
+                    </div>
+                {% endif %}
+                {% if obj.status == 'F' %}
+                    <div class="col">
+                        <a href="{% url  'create_decision_type_a_onemore_view' obj.id %}" type="button"
+                           class="btn btn-primary ">Сформировать этапы рассмотрения и назначить ответственных
+                            экспертов для повторной проверки</a>
+                    </div>
+                {% endif %}
+
+                {% if obj.status == 'H' %}
+                    <div class="col">
+                        <a href="{% url  'create_decision_type_b_view' obj.id %}" type="button"
+                           class="btn btn-primary ">Сформировать экспертизу о необходимости правовой охраны РИД</a>
+                    </div>
+                {% endif %}
+
+
+                {% if obj.status == 'L' %}
+                    <div class="block col">
+                        <a href="{% url  'rid_edit_rospatent_view' obj.id %}" type="button" class="btn btn-primary">Внести
+                            данные Роспатент</a>
+                        <a href="{% url  'rid_confirm_rospatent_view' obj.id %}" type="button"
+                           class="btn btn-success my-2">Подтвердить
+                            получение охранного документа</a>
+                    </div>
+                {% endif %}
+                {% if obj.status == 'M' %}
+                    <div class="block col">
+                        <a href="{% url  'create_decision_type_c_view' obj.id %}" type="button" class="btn btn-primary">Назначить
+                            экспертизу Решения Комиссии НМА</a>
+                    </div>
+                {% endif %}
+                {% if obj.status == 'P' %}
+                    <div class="block col">
+                        <a href="{% url  'rid_edit_accounting_view' obj.id %}" type="button" class="btn btn-primary">Ввод
+                            сведений по постановки на бухгалтерский учет</a>
+                    </div>
+                {% endif %}
+                {% if obj.status == 'Q' %}
+                    <div class="block col">
+                        <a type="button" class="btn btn-primary my-2" href="{% url 'create_contract_view' %}">Указать
+                            сведения о
+                            договорах использования</a>
+                        <a href="{% url  'rid_edit_contract_view' obj.id %}" type="button" class="btn btn-primary">Ввод
+                            сведений по договору</a>
+                    </div>
+                {% endif %}
+                {% if obj.status == 'R' %}
+                    <div class="block col">
+                        <a href="{% url  'create_decision_type_g_view' obj.id %}" type="button" class="btn btn-primary">Назначить
+                            экспертизу договора использования</a>
+                    </div>
+                {% endif %}
+                {% if obj.status == 'U' %}
+                    <div class="block col">
+                        <a href="{% url  'contract_edit' contract.pk %}" type="button" class="btn btn-primary">Ввод
+                            сведений по платежам</a>
+                    </div>
+                    <div class="block col">
+                        <form method="post" action="{% url  'rid_edit_contract_payment_view' obj.pk %}">{% csrf_token %}
+                            <button class="btn btn-primary my-2">Подтвердить введеные сведения</button>
+                        </form>
+                    </div>
+                {% endif %}
+                {% if my_role == 'ctt' or my_role == 'admin' %}
+                    <div class="col my-3 mx-3">
+                        <a href="{% url  'rid_edit' obj.id %}" type="button"
+                           class="btn btn-primary row">Редактировать</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="col-9">
+
+                <div class="container">
+                    <div class='col' style="min-width: 90%">
+                        <form method="post" action="{% url 'create_footing_view' %}">{% csrf_token %}
+                            {{ create_footing_form.as_p }}
+                            {% include 'users_app/footing_type_cnt.html' %}
+                            <button type="submit" class="btn btn-primary">Добавить основание</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#id_type").change(function () {
+            const type_ = $(this).val();
+            $.ajax({
+                url: "{% url 'get_template_footing'  %}",
+                type: 'GET',
+                data:{"type":type_},
+                success: function (res) {
+                    $('.form_member').replaceWith(res);
+                }
+            });
+        });
+    </script>
+{% endblock %}

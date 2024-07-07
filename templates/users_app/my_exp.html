@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="block">
+
+                <div class="container">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">РИД</th>
+                            <th scope="col">Название экспертизы</th>
+                            <th scope="col">Количество дней</th>
+                            <th scope="col">Статус</th>
+                            <th scope="col">Действия</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row  in data%}
+                        <tr>
+                            <th scope="row"><a href="{% url 'ria_info_view' row.ria_id %}">{{ row.ria_id }}</a></th>
+                            <td>{{ row.expertise }}</td>
+                            <td>{{ row.count_days }}</td>
+                            <td>{{ row.status }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-success" onclick="updateExpertise(this);" data-expid="{{ row.exp_id }}" data-expertise="{{ row.expertise }}" data-status="Принята">Принять</button>
+                                <button class="btn btn-sm btn-danger" onclick="updateExpertise(this);" data-expid="{{ row.exp_id }}" data-expertise="{{ row.expertise }}" data-status="Отклонена">Отклонить</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateExpertise(e){
+            var data = {}
+            data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
+            data['expid'] = $(e).data('expid')
+            data['expertise'] = $(e).data('expertise')
+            data['status'] = $(e).data('status')
+
+            $.ajax({
+                data: data,
+                url: "{% url 'update_status_exp_view'  %}",
+                type: 'post',
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    console.log(this.data)
+                    console.log('error')
+                }
+            });
+
+        }
+
+    </script>
+{% endblock %}

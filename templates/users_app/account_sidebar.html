@@ -1,0 +1,78 @@
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-primary bg-opacity-10" style="width: 280px;">
+    <span class="fs-4">Аккаунт</span>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="{% url 'account' %}"
+               class="nav-link {% if active_button == 'settings' %}active {% else %} link-dark {% endif %}">
+                Информация об аккаунте
+            </a>
+        </li>
+
+        {% if my_role == 'ctt' or my_role == 'admin' %}
+            <br>
+            <li class="nav-item">
+                <a href="{% url 'add_rid_view' %}"
+                   class="nav-link {% if active_button == 'create_ria_form' %}active {% else %} link-dark {% endif %}">
+                    Создание РИД
+                </a>
+            </li>
+        {% endif %}
+        
+
+        {% if my_role == 'patentoved' or my_role == 'admin' or my_role == 'urist' or my_role == 'patent' or my_role == 'manager' or my_role == 'is' or my_role == 'nma'%}
+            <br>
+            <li class="nav-item">
+                <a href="{% url 'my_expertise_view' %}"
+                   class="nav-link {% if active_button == 'my_expertise_view' %} active {% else %} link-dark {% endif %}">
+                    Мои экспертизы
+                </a>
+            </li>
+        {% endif %}
+        <br>
+        <li class="nav-item">
+            <a href="{% url 'notifications' %}"
+               class="nav-link {% if active_button == 'notifications' %}active {% else %} link-dark {% endif %}">
+                Реестр РИД
+            </a>
+        </li>
+        {% if my_role == 'ctt' or my_role == 'admin'%}
+            <li class="nav-item">
+                <a href="{% url 'active_expertise_view' %}"
+                   class="nav-link {% if active_button == 'active_expertise_view' %} active {% else %} link-dark {% endif %}">
+                   Реестр решений
+                </a>
+            </li>
+        {% endif %}
+        {% if my_role == 'ctt' or my_role == 'admin'%}
+            <li class="nav-item">
+                <a href="{% url 'contract_reestr' %}"
+                   class="nav-link {% if active_button == 'contract_reestr' %} active {% else %} link-dark {% endif %}">
+                   Реестр договоров
+                </a>
+            </li>
+        {% endif %}
+        {% if my_role == 'ctt' or my_role == 'admin'%}
+            <li class="nav-item">
+                <a href="{% url 'reestr' %}"
+                   class="nav-link {% if active_button == 'reestr' %} active {% else %} link-dark {% endif %}">
+                   Реестр
+                </a>
+            </li>
+        {% endif %}
+
+            <li class="nav-item">
+                <a href="{% url 'statistic' %}"
+                   class="nav-link {% if active_button == 'statistic' %} active {% else %} link-dark {% endif %}">
+                   Статистика
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'dashboards' %}"
+                   class="nav-link {% if active_button == 'dashboards' %} active {% else %} link-dark {% endif %}">
+                   Аналитические показатели
+                </a>
+            </li>
+            
+    </ul>
+</div>

@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+{% block title %} {{ page_name }} {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="d-flex flex-row">
+            <div class="block">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="container mb-5">
+                <h2>{{ page_name }}</h2>
+                <br>
+                <label>Наименование РИД</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.name }}' disabled>
+                    </div>
+                    <div class='col-1 text-center align-self-center'>
+                        <a href='{% url "ria_info_view" object.ria.pk %}'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                <path fill-rule="evenodd"
+                                      d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <label>№ уведомления о создании РИД</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.pk }}' disabled>
+                    </div>
+                    <div class='col-1 text-center align-self-center'>
+                        <a href='{% url "ria_info_view" object.ria.pk %}'>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                <path fill-rule="evenodd"
+                                      d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <br>
+                <label>№ заявки в Роспатент</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.number_query_into_rospatent }}'
+                               disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>№ приказа установления режима конфиденциальности (коммерческой тайны)</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.number_of_the_order_establishing_the_confidentiality_regime }}'
+                               disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>№ патента, свидетельства</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.patent_number_certificate }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>№ платежного документа об оплате пошлины</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.payment_document_number_on_payment_of_the_fee }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>№ СЗ на оплату пошлины</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.number_sz_for_payment_of_the_fee }}'
+                               disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>МПК (для ИЗ и ПМ), МКПО (для ПО), МКТУ (для ТЗ)</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.mpk_mkpo_mkty }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Год действия патента</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.year_of_patent_validity }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Дата решения Комиссии</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.decision.date }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Дата выдачи патента, свидетельства</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.date_of_issue_of_the_patent_certificate }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Дата окончания действия патента</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.patent_expiration_date }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Дата подачи заявки в Роспатент</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.date_of_filing_an_application_with_rospatent }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Дата приказа установления режима конфиденциальности (коммерческой тайны)</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.date_of_the_order_to_establish_the_confidentiality_regime }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Дата уведомления о создании РИД</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.date_create }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Источник, за счет которого был создан РИД</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.footing }}' disabled>
+                    </div>
+                    {% if object.ria.footing %}
+                        <div class='col-1 text-center align-self-center'>
+                            <a href='{% url "footing_info" object.ria.footing.pk %}'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <br>
+                <label>Входящие документы</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.input_documents }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Исходящие документы</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.output_documents }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Последний документ</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.last_document }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Правообладатель</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.copyright_holder }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Подразделение, на базе которого создан РИД</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.division }}' disabled>
+                    </div>
+                </div>
+
+
+                <br>
+                <label>Предполагаемая форма охраны</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.type }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Размер выплаченного авторского вознаграждения, включая НДФЛ</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.the_amount_of_royalties_paid_including_personal_income_tax }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Размер дохода от использования и распоряжения РИД</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.the_amount_of_income_from_the_use_and_disposal_of_the_rid }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Учетная стоимость</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.ria.price }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Начисленная амортизация (износ), тыс. руб.</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.accrued_depreciation_thousand_rubles }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Размер пошлины</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.the_amount_of_the_fee }}' disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Срок оплаты пошлины</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.term_of_payment_of_the_fee }}'
+                               disabled>
+                    </div>
+                </div>
+
+
+                <br>
+                <label>Срок ответа на корреспонденцию</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control'
+                               value='{{ object.the_deadline_for_responding_to_correspondence }}'
+                               disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Страны выдачи патента</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.countries_of_issue_of_the_patent }}'
+                               disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>Утвержденная форма охраны</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.approved_form_of_protection }}'
+                               disabled>
+                    </div>
+                </div>
+
+                <br>
+                <label>ФИО авторов</label>
+                {% if authors %}
+                    {% for author in authors %}
+                        <div class='row'>
+                            <div class='col-11'>
+                                <input type='text' class='form-control' value='{{ author.name }}'
+                                       disabled>
+                            </div>
+                        <div class='col-1 text-center align-self-center'>
+                            <a href='{% url "author_detail" author.pk %}'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                          d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+            <br>
+                <label>Сведения о внесении изменений в реестр</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <textarea disabled>{{ object.information_about_making_changes_to_the_registry }}</textarea>
+                    </div>
+                </div>
+
+            <br>
+                <label>Примечание</label>
+                <div class='row'>
+                    <div class='col-11'>
+                        <input type='text' class='form-control' value='{{ object.note }}'
+                               disabled>
+                    </div>
+                </div>
+            <a class="btn btn-primary mt-2" href="{% url 'reestr-update' object.pk %}">Редактировать</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

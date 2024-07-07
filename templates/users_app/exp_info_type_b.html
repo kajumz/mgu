@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %} Проекты {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                {% include 'users_app/account_sidebar.html' %}
+            </div>
+            <div class="col-9">
+                <h2>Exp Info</h2>
+                <div class="container">
+                   <div class="row mb-3">
+                        <label class="col-3 col-form-label">Тип Согласования</label>
+                        <div class="col-9">
+                          <input type="text" class="form-control" disabled value="{{obj_type}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Сведения по повестке</label>
+                        <div class="col-9">
+                          <input type="text" class="form-control" disabled value="{{obj.information_agenda}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Статус</label>
+                        <div class="col-9">
+                          <input type="text" class="form-control" disabled value="{{obj.status}}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Сведения по этапам согласования</label>
+                    </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Ответственный эксперт</th>
+                            <th scope="col">Название экспертизы</th>
+                            <th scope="col">Количество дней</th>
+                            <th scope="col">Статус</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row  in data%}
+                        <tr>
+                            <td>{{ row.expert }}</td>
+                            <td>{{ row.expertise }}</td>
+                            <td>{{ row.count_days }}</td>
+                            <td>{{ row.status }}</td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                {% if obj.status != 'Закрыта' %}
+                    <div class="row my-5">
+                        <div class='col-4'></div>
+                        <button class='col-4 btn btn-success me-5' onclick="updateExpertise(this);" data-status="Принята">Необходима правовая охрана РИД</button>
+                        <button class='col-3 btn btn-danger' onclick="updateExpertise(this);" data-status="Отклонена">РИД не создан</button>
+                    </div>
+                {% endif %}
+
+                </div>
+            
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateExpertise(e){
+            var data = {}
+            data['csrfmiddlewaretoken'] = "{{ csrf_token }}"
+            data['status'] = $(e).data('status')
+
+            $.ajax({
+                data: data,
+                url: "{% url 'update_status_decision_type_b_view' obj.id %}",
+                type: 'post',
+                success: function (response) {
+                    window.location.href = response['redirect'];
+                },
+                error: function () {
+                    console.log(this.data)
+                    console.log('error')
+                }
+            });
+
+        }
+    </script>
+{% endblock %}

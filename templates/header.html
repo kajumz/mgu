@@ -1,0 +1,54 @@
+{% load static %}
+<main>
+
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom border-primary">
+
+
+
+            <div class="col-md-1 btn-group dropend">
+                <button type="button" class="btn btn-outline-primary dropdown-toggle " data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Уведомления >>>
+                </button>
+                <ul class="dropdown-menu px-2" style="width: 600px;">
+                    {% for notification in notifications %}
+                        <li>
+                            <span>Дата: {{ notification.datetime_create }}</span><br>
+                            <span> Категория: {{ notification.get_category  }} </span>
+                            <div class="text-break">
+                                Текст: {{ notification.text }}
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                    {%  endfor %}
+
+                </ul>
+            </div>
+
+            <div class="col-md-4 text-end">
+                {% if user.is_authenticated %}
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle " data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            {{ user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'account' %}">Личный кабинет</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a type="button" class="btn btn-outline-primary me-2" href="{% url 'user_auth' %}">Войти</a>
+                    <a type="button" class="btn btn-primary" href="{% url 'registration' %}">Регистрация</a>
+                {% endif %}
+
+            </div>
+        </header>
+    </div>
+</main>
+
